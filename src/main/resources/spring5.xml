@@ -25,8 +25,8 @@
 	   <aop:pointcut expression="execution(* chauncy.service.UserService.add(..))" id="pc"/>
 	   <!-- 配置切面 -->
 	   <aop:aspect ref="aopService">
-	       <aop:before method="commit" pointcut-ref="pc"/>
-	       <aop:after method="begin" pointcut-ref="pc"/>
+	       <aop:before method="begin" pointcut-ref="pc"/>
+	       <aop:after method="commit" pointcut-ref="pc"/>
 	       <aop:after-throwing method="error" pointcut-ref="pc"/>
 	       <aop:after-returning method="run" pointcut-ref="pc"/>
 	       <aop:around method="around" pointcut-ref="pc"/>
