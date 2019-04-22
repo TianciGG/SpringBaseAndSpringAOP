@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd"> 
+    <!-- SpringIOC创建对象方式1：调用无参构造函数 --> 
+    <bean id="userEntity1"  class="chauncy.entity.UserEntity"></bean>
+    <!-- SpringIOC创建对象方式2：调用有参构造函数 --> 
+    <bean id="userEntity2" class="chauncy.entity.UserEntity">
+        <constructor-arg name="name" value="ChauncyWang"></constructor-arg>
+        <constructor-arg name="age" value="18"></constructor-arg>
+    </bean>
+    <!-- SpringIOC创建对象方式3：工厂创建对象(不太常用)：1>实例工厂2>静态工厂 --> 
+    <bean id="objectFactory" class="chauncy.entity.ObjectFactory"></bean>
+    <bean id="userEntity3" factory-bean="objectFactory" factory-method="getUserEntity">
+    </bean>
+    <bean id="staticFactoryUserEntity" class="chauncy.entity.ObjectFactory"  factory-method="getStaticUserEntity">
+    </bean>
+    
+    
+</beans>

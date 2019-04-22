@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+	<!-- 如果要使用注解，首先要开启注解权限，扫描注解 -->
+	<context:component-scan base-package="chauncy.*"></context:component-scan>
+	<!-- XML和注解混合使用，定义相同beanId,验证是否会报错，若不报错，XML和注解谁先执行 -->
+	<bean id="userDao" class="chauncy.dao.UserDao">
+		<property name="flag" value="true"></property>
+	</bean>
+	
+	<!-- 把切面类加入到容器中 -->
+	<bean id="aopService" class="chauncy.service.AOPService"></bean>
+	<!-- aop的配置 -->
+	<aop:config>
+	   <!-- 配置切入点,如果add替换成*表示UserService下所有方法都会当做切入点 -->
+	   <aop:pointcut expression="execution(* chauncy.service.UserService.add(..))" id="pc"/>
+	   <!-- 配置切面 -->
+	   <aop:aspect ref="aopService">
+	       <aop:before method="commit" pointcut-ref="pc"/>
+	       <aop:after method="begin" pointcut-ref="pc"/>
+	       <aop:after-throwing method="error" pointcut-ref="pc"/>
+	       <aop:after-returning method="run" pointcut-ref="pc"/>
+	       <aop:around method="around" pointcut-ref="pc"/>
+	   </aop:aspect>
+	</aop:config>
+
+</beans>
